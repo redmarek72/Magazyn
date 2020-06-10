@@ -1,0 +1,84 @@
+﻿@page "/User"
+@using System;
+@using System.Collections;
+@using System.Collections.Generic;
+@using System.Linq;
+@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Mvc;
+@using Microsoft.Extensions.Primitives;
+@using Magazyn.Data;
+@using Magazyn.Models;
+@using Magazyn.Shared;
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Newtonsoft.Json
+@using Syncfusion.Blazor.Grids
+@inject UserService objEmpService
+@inject MczeContext context
+@inject NavigationManager NavigationMenager
+
+<h4>Lista Użytkowników</h4>
+<div class=" row">
+    <div class=" col-md-4">
+        <div class=" form-group">
+            <SfButton IsPrimary="true" CssClass="e-outline" OnClick="Dodaj">Dodaj nowego</SfButton>
+            @*<SfButton IsPrimary="true" CssClass="e-outline" OnClick="pokazaktywnych">Aktywni Użytkownicy</SfButton>*@
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12 control-section">
+    <div class="row">
+        <div id='container' class='e-resizable'>
+            <SfGrid TValue="Tbuser" DataSource="@objEmp" AllowPaging="true" AllowSorting="true" AllowFiltering="true" Width="100%">
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"></GridEditSettings>
+                <GridPageSettings PageSize="10"></GridPageSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(Tbuser.Iduser) IsPrimaryKey="true" HeaderText="ID" Width="20">
+                        <Template>
+                            @{
+                                int keyField = (context as Tbuser).Iduser;
+                                <a href="/EditUser/@keyField">Edytuj</a>
+                                int keyField1 = (context as Tbuser).Iduser;
+                                <a href="/DeleteUser/@keyField1">Usuń</a>
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(Tbuser.Imie) HeaderText="Imię" Width="20"></GridColumn>
+                    <GridColumn Field=@nameof(Tbuser.Nazwisko) HeaderText="Nazwisko" Width="20"></GridColumn>
+                    <GridColumn Field=@nameof(Tbuser.User) HeaderText="User" Width="20"></GridColumn>
+                    <GridColumn Field=@nameof(Tbuser.Ean_User) HeaderText="EAN" Width="20"></GridColumn>
+                    <GridColumn Field=@nameof(Tbuser.Aktywny) HeaderText="Aktywny" Width="20"></GridColumn>
+                    <GridColumn Field=@nameof(Tbuser.Logowanie) HeaderText="Dostęp" Width="20"></GridColumn>
+                    <GridColumn Field=@nameof(Tbuser.Administrator) HeaderText="Administrator" Width="20"></GridColumn>
+                    
+</GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+@code {
+    SfGrid<Tbuser> Grid;
+    public List<Tbuser> objEmp;
+
+    protected override async Task OnInitializedAsync()
+    {
+        objEmp = await Task.Run(() => objEmpService.GetEmployee());//GetEmployee());
+    }
+    //var emp in objEmp
+
+
+    public void pokazaktywnych()
+    {
+        objEmp = objEmpService.GetAktywny();
+    }
+
+    void Dodaj()
+    {
+        NavigationMenager.NavigateTo("DodajUser");
+    }
+
+
+}
+

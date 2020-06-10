@@ -1,0 +1,63 @@
+﻿@page "/DeleteUser/{Iduser}"
+@using Magazyn.Data
+@using Magazyn.Models  
+@inject UserService objEmpService
+@inject NavigationManager NavigationMenager
+
+
+<h2>Usuń rekord</h2>
+<hr />
+<h3>Czy chcesz usunąć rekord ?</h3>
+<div class="row">
+    <div class="  col col-md-8">
+        <div class=" form-group">
+            <label>Employee ID:</label>
+            <label>@objEmp.Iduser</label>
+        </div><div class=" form-group">
+            <label>FirstName:</label>
+            <label>@objEmp.Imie</label>
+        </div>
+    </div><div class=" form-group">
+        <label>LastName:</label>
+        <label>@objEmp.Nazwisko</label>
+    </div>
+</div>
+
+<div class=" row">
+    <div class=" col-md-4">
+        <div class=" form-group">
+            <input type="button" class=" btn btn-primary" @onclick="@DeletteEmployee" value="Delete" />
+            <input type="button" class=" btn btn-primary" @onclick="@Cancel" value=" Cancel" />
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+@code {
+    [Parameter]
+    public string Iduser { get; set; }
+  Tbuser objEmp = new Tbuser();
+
+    protected override async Task OnInitializedAsync()
+    {
+        objEmp = await Task.Run(() => objEmpService.GetEmployeeById(Convert.ToInt32(Iduser)));
+    }
+
+
+    protected void DeletteEmployee()
+    {
+        objEmpService.DeleteEmpInfo(objEmp);
+        NavigationMenager.NavigateTo("User");
+    }
+    void Cancel()
+    {
+        NavigationMenager.NavigateTo("User");
+    }
+
+}
+

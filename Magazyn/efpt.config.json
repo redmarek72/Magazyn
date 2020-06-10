@@ -1,0 +1,87 @@
+﻿{
+   "ContextClassName": "MczeContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "DoNotCombineNamespace": false,
+   "IdReplace": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "ProjectRootNamespace": "Magazyn",
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "HasPrimaryKey": true,
+         "Name": "appointments"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "resources"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "taskdependencies"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbdokument"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbgrupa"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbjm"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tblicznik"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbmaszyna"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbpodzespol"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbpozycje"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbpozycje_rozchod"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbprzyjecie"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbrozchod"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbsrodki"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbtowar"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "tbuser"
+      }
+   ],
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseSpatial": false
+}

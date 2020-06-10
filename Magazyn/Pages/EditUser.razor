@@ -1,0 +1,73 @@
+﻿@page "/EditUser/{Iduser}"
+@using Magazyn.Data
+@inject UserService objEmpService
+@inject NavigationManager NavigationMenager
+<h3>Edycja użytkownika</h3>
+<form>
+    <div class=" row">
+        <div class=" col-md-8">
+            <div class=" form-group">
+                <input for="Name" class="form-control" @bind="@objEmp.Iduser" />
+            </div>
+            <div class=" form-group">
+                <label for="Name" class="control-label">Imię</label>
+                <input form=" Name" class=" form-control" @bind="@objEmp.Imie" />
+            </div>
+            <div class=" form-group">
+                <label for="LastName" class="control-label">Nazwisko</label>
+                <input form=" LastName" class=" form-control" @bind="@objEmp.Nazwisko" />
+            </div>
+            <div class=" form-group">
+                <label for="City" class="control-label">Hasło</label>
+                <input form=" City" class=" form-control" @bind="@objEmp.Password" />
+            </div>
+            <div class=" form-group">
+                <label for="Country" class="control-label">Nazwa</label>
+                <input form=" Country" class=" form-control" @bind="@objEmp.User" />
+            </div>
+        </div>
+    </div>
+
+    <div class=" row">
+        <div class=" col-md-4">
+            <div class=" form-group">
+                <input type="button" class=" btn btn-primary" @onclick="@UpdateEmployee" value="Update" />
+                <input type="button" class=" btn btn-primary" @onclick="@Cancel" value=" Cancel" />
+
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+
+
+
+
+
+
+
+@code {
+    [Parameter]
+    public string Iduser { get; set; }
+   Magazyn.Models.Tbuser objEmp = new Magazyn.Models.Tbuser();
+
+    protected override async Task OnInitializedAsync()
+    {
+        objEmp = await Task.Run(() => objEmpService.GetEmployeeById(Convert.ToInt32(Iduser)));
+    }
+
+
+    protected void UpdateEmployee()
+    {
+        objEmpService.UpdateEmployee(objEmp);
+        NavigationMenager.NavigateTo("User");
+    }
+    void Cancel()
+    {
+        NavigationMenager.NavigateTo("User");
+    }
+
+}
+
