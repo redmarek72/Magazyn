@@ -7,6 +7,7 @@
 @using Microsoft.AspNetCore.Mvc;
 @using Microsoft.Extensions.Primitives;
 @using Magazyn.Data;
+@using Syncfusion.Blazor.Navigations
 @using Magazyn.Models;
 @using Magazyn.Shared;
 @using Syncfusion.Blazor
@@ -14,14 +15,17 @@
 @using Newtonsoft.Json
 @using Syncfusion.Blazor.Grids
 @inject TowarService objEmpService
+@inject GrupaService objGrp
 @inject MczeContext context
 @inject NavigationManager NavigationMenager
 
 <h4>Materiały i towary</h4>
+<span class="e-icons e-search"></span>
 <div class=" row">
     <div class=" col-md-4">
         <div class=" form-group">
             <SfButton IsPrimary="true" CssClass="e-outline" OnClick="Dodaj">Dodaj nowy</SfButton>
+         @*  <SfButton CssClass="e-round" IconCss="e-icons e-plus-icon" IsPrimary="true"></SfButton>*@
             @*<SfButton IsPrimary="true" CssClass="e-outline" OnClick="pokazaktywnych">Aktywni Użytkownicy</SfButton>*@
         </div>
     </div>
@@ -30,9 +34,11 @@
 <div class="col-lg-12 control-section">
     <div class="row">
         <div id='container' class='e-resizable'>
-            <SfGrid TValue="Tbtowar" DataSource="@objEmp" AllowPaging="true" AllowSorting="true" AllowFiltering="true" Width="100%">
+
+            <SfGrid @ref="Grid" TValue="Tbtowar" DataSource="@objEmp" AllowExcelExport="true" AllowPaging="true" Toolbar="Toolbaritems">
+                <GridEvents OnToolbarClick="ToolbarClickHandler" TValue="Tbtowar"></GridEvents>
                 <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
-                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" ></GridEditSettings>
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"></GridEditSettings>
                 <GridPageSettings PageSize="15"></GridPageSettings>
                 <GridColumns>
                     <GridColumn Field=@nameof(Tbtowar.Idtowar) IsPrimaryKey="true" HeaderText="ID" Width="20">
@@ -49,39 +55,72 @@
                     <GridColumn Field=@nameof(Tbtowar.Nazwa) HeaderText="Nazwa" Width="20"></GridColumn>
                     <GridColumn Field=@nameof(Tbtowar.Ean) HeaderText="Ean" Width="20"></GridColumn>
                     <GridColumn Field=@nameof(Tbtowar.Opis) HeaderText="Opis" Width="20"></GridColumn>
-                    <GridColumn Field=@nameof(Tbtowar.Fgrupa) HeaderText="Grupa" Width="20"></GridColumn>
-                    <GridColumn Field=@nameof(Tbtowar.Fjm) HeaderText="Jm" Width="20"></GridColumn>
-                    @* <GridColumn Field=@nameof(Tbuser.Aktywny) HeaderText="Aktywny" Width="20"></GridColumn>
-        <GridColumn Field=@nameof(Tbuser.Logowanie) HeaderText="Dostęp" Width="20"></GridColumn>
-        <GridColumn Field=@nameof(Tbuser.Administrator) HeaderText="Administrator" Width="20"></GridColumn>*@
+                    <GridColumn Field=@nameof(Tbtowar.Fgrupa) HeaderText="Grupa" Width="20">
+                       @* EditType="EditType.DropDownEdit"
+                        ForeignKeyField="idgrupa" ForeignKeyValue="idgrupa" DataSource="@objGrupa" >*@
+                    </GridColumn>
 
+                    <GridColumn Field=@nameof(Tbtowar.Fjm) HeaderText="Jm" Width="20"  ></GridColumn>
+                    @* <GridColumn Field=@nameof(Tbuser.Aktywny) HeaderText="Aktywny" Width="20"></GridColumn>
+
+                <GridColumn Field=@nameof(Tbuser.Logowanie) HeaderText="Dostęp" Width="20"></GridColumn>
+                <GridColumn Field=@nameof(Tbuser.Administrator) HeaderText="Administrator" Width="20"></GridColumn>*@
                 </GridColumns>
             </SfGrid>
+            <style>
+                .e-click::before {
+                    content: '\e83c';
+                      }
+               
+                
+            </style>
+           
         </div>
     </div>
 </div>
+
 @code {
+    private List<Object> Toolbaritems = new List<Object>() { "Add", "Edit", "Delete", "Update", "Cancel", new ItemModel() { Text = "Excel", TooltipText = "Export do excela", PrefixIcon = "e-click", Id = "ExcelExport" } };
     SfGrid<Tbtowar> Grid;
     public List<Tbtowar> objEmp;
+    public List<Tbgrupa> objGrupa;
+    public List<Tbjm> objJm;
 
     protected override async Task OnInitializedAsync()
     {
+
         objEmp = await Task.Run(() => objEmpService.GetTowar());//GetEmployee());
+                                                                //objGrupa = await Task.Run(() => objGrp.GetGrupa());
+
     }
     //var emp in objEmp
 
-
+    public void ExcelExport()
+    {
+        this.Grid.ExcelExport();
+    }
 
 
     void Dodaj()
     {
         NavigationMenager.NavigateTo("ListaTowarow");
     }
+    public void ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
 
-   
+        if (args.Item.Id == "ExcelExport")
+        {
+            this.Grid.ExcelExport();
+        }
+
+        
 
 
-   }
+    }
+
+
+
+}
 
 
 

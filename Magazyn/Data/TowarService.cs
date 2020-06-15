@@ -14,6 +14,7 @@ namespace Magazyn.Data
 
         public TowarService(MczeContext db)
 
+
         {
             _db = db;
 
@@ -22,11 +23,12 @@ namespace Magazyn.Data
         public List<Tbtowar> GetTowar()
              
         {
-           var towList = _db.Tbtowar .ToList();
+          var towList = _db.Tbtowar .ToList();
           return towList;
+         
         }
 
-       
+      
 
         public string Create(Tbtowar objTowar)
         {

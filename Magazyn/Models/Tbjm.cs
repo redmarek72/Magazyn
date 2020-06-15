@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Magazyn.Models
 {
-    public partial class Tbjm
+    public  class Tbjm
     {
         
         [Key]

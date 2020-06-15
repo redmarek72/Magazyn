@@ -42,6 +42,7 @@ namespace Magazyn
             services.AddSingleton<Tbjm>();
             services.AddScoped<TowarService>();
             services.AddSingleton<Tbgrupa>();
+            services.AddScoped<GrupaService>();
 
             services.AddSingleton<Tbtowar>();
         
