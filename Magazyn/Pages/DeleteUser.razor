@@ -1,6 +1,7 @@
 ﻿@page "/DeleteUser/{Iduser}"
 @using Magazyn.Data
-@using Magazyn.Models  
+@using Syncfusion.Blazor.Inputs
+@using Magazyn.Models
 @inject UserService objEmpService
 @inject NavigationManager NavigationMenager
 
@@ -8,26 +9,36 @@
 <h2>Usuń rekord</h2>
 <hr />
 <h3>Czy chcesz usunąć rekord ?</h3>
-<div class="row">
-    <div class="  col col-md-8">
-        <div class=" form-group">
-            <label>Employee ID:</label>
-            <label>@objEmp.Iduser</label>
-        </div><div class=" form-group">
-            <label>FirstName:</label>
-            <label>@objEmp.Imie</label>
+
+
+<form>
+    <div class=" row">
+        <div class=" col-md-8">
+            @*szerokośc formularza*@
+            <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10">
+                <label> ID:</label>
+                <label>@objEmp.Iduser</label>
+            </div>
+                <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10">
+                    <SfTextBox Placeholder="Imię" FloatLabelType="@FloatLabelType.Always" @bind-Value="@objEmp.Imie"></SfTextBox>
+                </div>
+                <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10">
+                    <SfTextBox Placeholder="Nazwisko" FloatLabelType="@FloatLabelType.Always" @bind-Value="@objEmp.Nazwisko"></SfTextBox>
+                </div>
+                <div class="col-xs-10 col-sm-10 col-lg-10 col-md-10">
+                    <SfTextBox Placeholder="Nr ewid." FloatLabelType="@FloatLabelType.Always" @bind-Value="@objEmp.Ean_User"></SfTextBox>
+                </div>
+            </div>
         </div>
-    </div><div class=" form-group">
-        <label>LastName:</label>
-        <label>@objEmp.Nazwisko</label>
-    </div>
-</div>
+ 
+</form>
+<br />
 
 <div class=" row">
-    <div class=" col-md-4">
+    <div class=" col-xs-10 col-sm-10 col-lg-10 col-md-10">
         <div class=" form-group">
-            <input type="button" class=" btn btn-primary" @onclick="@DeletteEmployee" value="Delete" />
-            <input type="button" class=" btn btn-primary" @onclick="@Cancel" value=" Cancel" />
+            <input type="button" class=" btn btn-info" @onclick="@DeletteEmployee" value="Usuń" />
+            <input type="button" class=" btn btn-secondary" @onclick="@Cancel" value=" Anuluj" />
 
         </div>
     </div>
@@ -41,7 +52,7 @@
 @code {
     [Parameter]
     public string Iduser { get; set; }
-  Tbuser objEmp = new Tbuser();
+    Tbuser objEmp = new Tbuser();
 
     protected override async Task OnInitializedAsync()
     {
